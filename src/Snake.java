@@ -23,6 +23,10 @@ public class Snake {
         return direction;
     }
 
+    public void setRemainingGrow(int remainingGrow) {
+        this.remainingGrow = remainingGrow;
+    }
+
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -41,6 +45,15 @@ public class Snake {
     public void paint(Graphics2D g, int squareWidth, int squareHeight) {
         for (Node node: body) {
             Board.drawSquare(g, squareWidth, squareHeight, node.getRow(), node.getCol(), Color.yellow);
+        }
+    }
+    
+    public boolean eat(Food food) {
+        if (body.get(0).getRow() == food.getRow() &&
+             body.get(0).getCol() == food.getCol() ) {
+            return true;
+        } else {
+            return false;
         }
     }
     

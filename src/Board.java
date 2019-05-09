@@ -76,8 +76,20 @@ public class Board extends JPanel {
     }
     
     public void tick() {
-        snake.move();
+        if (!snake.move()) {            
+            gameOver();
+        }
+        if (snake.eat(food)) {
+            food = new Food(snake);
+            snake.setRemainingGrow(1);
+        }
         repaint();
+        Toolkit.getDefaultToolkit().sync();
+    }
+    
+    public void gameOver() {
+        timer.stop();
+        System.out.println("Board.gameOver()");
     }
     
     @Override
