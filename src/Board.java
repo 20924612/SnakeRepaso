@@ -1,6 +1,11 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,21 +20,76 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
     
     
-    Snake snake;
-    Food food;
+    private Snake snake;
+    private Food food;
+    private Timer timer;
+    private MyKeyAdapter keyAdapter;
     
+    class MyKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    if (snake.getDirection() != Direction.RIGHT) {
+                        snake.setDirection(Direction.LEFT);
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (snake.getDirection() != Direction.LEFT) {
+                        snake.setDirection(Direction.RIGHT);
+                    }
+                    break;
+                case KeyEvent.VK_UP:
+                    if (snake.getDirection() != Direction.DOWN) {
+                        snake.setDirection(Direction.UP);
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (snake.getDirection() != Direction.UP) {
+                        snake.setDirection(Direction.DOWN);
+                    }
+                    break;                
+            }
+            repaint();
+        }
+        
+    }
     
     public Board() {
-        super();        
-        
+        super();   
+        keyAdapter = new MyKeyAdapter();
+        addKeyListener(keyAdapter);
+        setFocusable(true);
+        timer = new Timer(200, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                tick();
+            }
+        });
+        initGame();
+    }
+    
+    public void initGame() {        
+        timer.start();
+        snake = new Snake(4);
+        food = new Food(snake);
+    }
+    
+    public void tick() {
+        snake.move();
+        repaint();
     }
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        snake.paint(g2d, getSquareWidth(), getSquareHeight());
-        food.paint(g2d);
+        if (snake != null) {
+            snake.paint(g2d, getSquareWidth(), getSquareHeight());
+        }
+        if (food != null) {
+            food.paint(g2d, getSquareWidth(), getSquareHeight());    
+        }
     }
     
     public int getSquareWidth() {
