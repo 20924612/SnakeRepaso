@@ -90,18 +90,34 @@ public class Snake {
         if (row <= 0 || col <= 0 || 
                 row >= Config.numRows || col >= Config.numCols) {            
             return false;
-        } else {            
-            move(row, col);
-            return true;
+        } else { 
+            if (collidesWithItself()) {
+                return false;
+            }  else {
+                moveTo(row, col);
+                return true;
+            }
         }
     }
     
-    private void move(int row, int col) {
+    private void moveTo(int row, int col) {
         body.add(0, new Node(row, col));
         if (remainingGrow == 0) {
             body.remove(body.size() - 1);
         } else {
             remainingGrow --;
         }
+    }
+
+    private boolean collidesWithItself() {
+        int row = body.get(0).getRow();
+        int col = body.get(0).getCol();
+        for (int i = 1; i < body.size() - 1; i++) {
+            if (row == body.get(i).getRow() && 
+                col == body.get(i).getCol()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -17,8 +17,7 @@ import javax.swing.Timer;
  *
  * @author victor
  */
-public class Board extends JPanel {
-    
+public class Board extends JPanel {    
     
     private Snake snake;
     private Food food;
