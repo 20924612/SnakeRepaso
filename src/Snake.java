@@ -18,6 +18,7 @@ public class Snake {
     
     private List<Node> body;
     private Direction direction;
+    private int remainingGrow;
 
     public Direction getDirection() {
         return direction;
@@ -29,8 +30,7 @@ public class Snake {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-    private int remainingGrow;
+    }    
     
     public Snake(int numNodes) {
         body = new ArrayList<Node>();
