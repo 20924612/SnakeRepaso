@@ -23,6 +23,7 @@ public class Board extends JPanel {
     private Food food;
     private Timer timer;
     private MyKeyAdapter keyAdapter;
+    private ScoreDelegate scoreDelegate;
     
     class MyKeyAdapter extends KeyAdapter {
         @Override
@@ -74,11 +75,16 @@ public class Board extends JPanel {
         food = new Food(snake);
     }
     
+    public void setScoreDelegate(ScoreDelegate scoreDelegate) {
+        this.scoreDelegate = scoreDelegate;
+    }
+    
     public void tick() {
         if (!snake.move()) {            
             gameOver();
         }
         if (snake.eat(food)) {
+            scoreDelegate.increment(false);
             food = new Food(snake);
             snake.setRemainingGrow(1);
         }
