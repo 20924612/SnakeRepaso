@@ -9,15 +9,14 @@
  * @author victor
  */
 public class Score extends javax.swing.JPanel implements ScoreDelegate {
-    
+
     private int score;
-    
+
     public Score() {
         initComponents();
         score = 0;
         updateLabel();
     }
-    
 
     public void increment(boolean special) {
         if (special) {
@@ -26,20 +25,27 @@ public class Score extends javax.swing.JPanel implements ScoreDelegate {
             increment(1);
         }
     }
-    
+
     void increment(int inc) {
         score += inc;
         updateLabel();
     }
     
+
+    public int getScore(){
+        return score;
+    }
+
     public void reset() {
         score = 0;
         updateLabel();
     }
-    
+
     private void updateLabel() {
         jLabel1.setText("Score: " + score);
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

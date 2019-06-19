@@ -11,4 +11,5 @@
 public interface ScoreDelegate {
     public void increment(boolean special);
     public void reset();
+    public int getScore();
 }
