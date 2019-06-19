@@ -66,6 +66,7 @@ public class Board extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 tick();
+                repaint();
             }
         });
         initGame();
@@ -86,7 +87,6 @@ public class Board extends JPanel {
     }
 
     public void tick() {
-        System.out.println("Board.tick()");
         if (!snake.move()) {
             gameOver();
         }
