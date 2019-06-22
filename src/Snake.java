@@ -19,6 +19,8 @@ public class Snake {
     private List<Node> body;
     private Direction direction;
     private int remainingGrow;
+    private Wall wall;
+    Board board;
 
     public Direction getDirection() {
         return direction;
@@ -40,6 +42,10 @@ public class Snake {
             body.add(new Node(Config.numRows / 2, Config.numCols / 2 - i));
         }
 
+    }
+    
+    public List<Node> getBody(){
+        return body;
     }
 
     public void paint(Graphics g, int squareWidth, int squareHeight) {
@@ -139,5 +145,6 @@ public class Snake {
         }
         return false;
     }
+    
     
 }

@@ -10,7 +10,6 @@ import java.util.List;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author K501U
@@ -18,7 +17,7 @@ import java.util.List;
 public class Wall {
 
     public List<Node> list;
-            
+
     public Wall() {
         list = new ArrayList<Node>();
         createWall();
@@ -98,12 +97,49 @@ public class Wall {
 
                 break;
         }
-        
+
     }
-    
-     public void drawWall(Graphics g, int height, int width) {
+
+    public void drawWall(Graphics g, int height, int width) {
         for (Node node : list) {
             Board.drawSquare(g, node.getRow(), node.getCol(), width / Config.numCols, height / Config.numRows, Color.pink);
         }
-}
+    }
+    
+    public boolean colideWalls(Snake snake, Direction direction) {
+        int row = snake.getBody().get(0).getRow();
+        int col = snake.getBody().get(0).getCol();
+
+        switch (direction) {
+            case UP:
+                for (Node node : list) {
+                    if (col == node.getCol() && row - 1 == node.getRow()) {
+                        return true;
+                    }
+                }
+                break;
+            case DOWN:
+                for (Node node : list) {
+                    if (col == node.getCol() && row + 1 == node.getRow()) {
+                        return true;
+                    }
+                }
+                break;
+            case LEFT:
+                for (Node node : list) {
+                    if (row == node.getRow() && col - 1 == node.getCol()) {
+                        return true;
+                    }
+                }
+                break;
+            case RIGHT:
+                for (Node node : list) {
+                    if (row == node.getRow() && col + 1 == node.getCol()) {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
+    }
 }

@@ -102,10 +102,12 @@ public class Board extends JPanel {
             if (scoreDelegate.getScore() % 5 == 0) {
                 incrementSpeed();
             }
-            //if(){
             food = new Food(snake);
-            //}
+        }
 
+        if (wall.colideWalls(snake, snake.getDirection())) {
+            gameOver();
+        } else {
         }
 
         Toolkit.getDefaultToolkit().sync();
