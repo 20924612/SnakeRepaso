@@ -94,16 +94,14 @@ public class DialogLevel extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLevelActionPerformed
-
+        Config.getInstance().setLevel(comboLevel.getSelectedIndex());
     }//GEN-LAST:event_comboLevelActionPerformed
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         board.requestFocusInWindow();
         initComponents();
         dispose();
-        Config.getInstance().setLevel(comboLevel.getSelectedIndex());
         board.initGame();
-        score.reset();
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
