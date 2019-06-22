@@ -43,8 +43,8 @@ public class Snake {
         }
 
     }
-    
-    public List<Node> getBody(){
+
+    public List<Node> getBody() {
         return body;
     }
 
@@ -92,8 +92,27 @@ public class Snake {
         return true;
     }
 
-    public boolean tryToMove(int row, int col) {
+    public void jump() {
+        for (int i = 0; i < body.size(); i++) {
+            int row = body.get(i).getRow();
+            int col = body.get(i).getCol();
+            switch (direction) {
+                case UP:
+                    tryToMove(row - 3, col);
 
+                case DOWN:
+                    tryToMove(row + 3, col);
+
+                case LEFT:
+                    tryToMove(row, col - 3);
+
+                case RIGHT:
+                    tryToMove(row, col + 3);
+            }
+        }
+    }
+
+    public boolean tryToMove(int row, int col) {
         if (row < 0 || col < 0
                 || row >= Config.numRows || col >= Config.numCols) {
 
@@ -145,6 +164,5 @@ public class Snake {
         }
         return false;
     }
-    
-    
+
 }

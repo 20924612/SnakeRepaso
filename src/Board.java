@@ -26,6 +26,7 @@ public class Board extends JPanel {
     private ScoreDelegate scoreDelegate;
     public int deltaTime;
     private Wall wall;
+    private boolean isPaused;
 
     class MyKeyAdapter extends KeyAdapter {
 
@@ -52,6 +53,11 @@ public class Board extends JPanel {
                         snake.setDirection(Direction.DOWN);
                     }
                     break;
+                case KeyEvent.VK_P:
+                    pause();
+                    break;
+                case KeyEvent.VK_SPACE:
+                    snake.jump();
             }
             repaint();
         }
@@ -78,6 +84,7 @@ public class Board extends JPanel {
         snake = new Snake(4);
         food = new Food(snake);
         wall = new Wall();
+        isPaused = false;
         timer.start();
     }
 
@@ -115,6 +122,7 @@ public class Board extends JPanel {
 
     public void gameOver() {
         timer.stop();
+        System.err.println("Board.gameOver()");
     }
 
     @Override
@@ -141,6 +149,19 @@ public class Board extends JPanel {
 
     public int getSquareHeight() {
         return getHeight() / Config.numRows;
+    }
+    
+    public void pause(){
+        if(isPaused == false){
+            timer.stop();
+            isPaused = true;  
+            return;
+        }       
+        if(isPaused == true){
+            timer.start();
+            isPaused = false;
+            return;
+        }
     }
 
     public void drawBoard(Graphics2D g) {
