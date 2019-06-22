@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,10 +21,11 @@ public class Board extends JPanel {
 
     private Snake snake;
     private Food food;
-    private Timer timer;
+    public Timer timer;
     private MyKeyAdapter keyAdapter;
     private ScoreDelegate scoreDelegate;
     public int deltaTime;
+    private Wall wall;
 
     class MyKeyAdapter extends KeyAdapter {
 
@@ -72,9 +74,10 @@ public class Board extends JPanel {
         initGame();
     }
 
-    public void initGame() {       
+    public void initGame() {
         snake = new Snake(4);
         food = new Food(snake);
+        wall = new Wall();
         timer.start();
     }
 
@@ -90,13 +93,19 @@ public class Board extends JPanel {
         if (!snake.move()) {
             gameOver();
         }
+        Random random = new Random();
+        int num = random.nextInt(3);
+
         if (snake.eat(food)) {
             scoreDelegate.increment(false);
-            food = new Food(snake);
             snake.setRemainingGrow(1);
             if (scoreDelegate.getScore() % 5 == 0) {
                 incrementSpeed();
             }
+            //if(){
+            food = new Food(snake);
+            //}
+
         }
 
         Toolkit.getDefaultToolkit().sync();
@@ -109,12 +118,18 @@ public class Board extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2d = (Graphics2D) g;
+        drawBoard(g2d);
         if (snake != null) {
             snake.paint(g2d, getSquareWidth(), getSquareHeight());
         }
         if (food != null) {
             food.paint(g2d, getSquareWidth(), getSquareHeight());
+        }
+
+        if (wall != null) {
+            wall.drawWall(g, getHeight(), getWidth());
         }
     }
 
@@ -126,8 +141,15 @@ public class Board extends JPanel {
         return getHeight() / Config.numRows;
     }
 
-    public static void drawSquare(Graphics2D g, int squareWidth,
-            int squareHeight, int row, int col, Color color) {
+    public void drawBoard(Graphics2D g) {
+        for (int row = 0; row < Config.numRows; row++) {
+            for (int col = 0; col < Config.numCols; col++) {
+                drawSquare(g, row, col, getSquareWidth(), getSquareHeight(), Color.DARK_GRAY);
+            }
+        }
+    }
+
+    public static void drawSquare(Graphics g, int row, int col, int squareWidth, int squareHeight, Color color) {
         int x = col * squareWidth;
         int y = row * squareHeight;
         g.setColor(color);

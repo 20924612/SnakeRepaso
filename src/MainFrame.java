@@ -13,7 +13,11 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private DialogBorders dialogBorders;
+    private DialogLevel dialogLevel;
+
     public MainFrame() {
+        dialogBorders = new DialogBorders(this, rootPaneCheckingEnabled);
         initComponents();
         board1.setScoreDelegate(score1);
     }
@@ -32,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemDifficult = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -62,6 +67,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
+        jMenuItemDifficult.setText("Difficult");
+        jMenuItemDifficult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDifficultActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemDifficult);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Exit");
@@ -89,6 +102,12 @@ public class MainFrame extends javax.swing.JFrame {
         board1.initGame();
         score1.reset();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItemDifficultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDifficultActionPerformed
+        board1.timer.stop();
+        dialogLevel = new DialogLevel(this, rootPaneCheckingEnabled, board1);
+        board1.timer.start();
+    }//GEN-LAST:event_jMenuItemDifficultActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,6 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemDifficult;
     private Score score1;
     // End of variables declaration//GEN-END:variables
 }
