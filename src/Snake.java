@@ -98,16 +98,20 @@ public class Snake {
             int col = body.get(i).getCol();
             switch (direction) {
                 case UP:
-                    tryToMove(row - 3, col);
+                    body.get(i).setRow(row - 3);
+                    break;
 
                 case DOWN:
-                    tryToMove(row + 3, col);
+                    body.get(i).setRow(row + 3);
+                    break;
 
                 case LEFT:
-                    tryToMove(row, col - 3);
+                    body.get(i).setCol(col - 3);
+                    break;
 
                 case RIGHT:
-                    tryToMove(row, col + 3);
+                    body.get(i).setCol(col + 3);
+                    break;
             }
         }
     }
@@ -136,6 +140,7 @@ public class Snake {
 
         } else {
             if (collidesWithItself()) {
+                System.out.println("Colision cuerpo");
                 return false;
             } else {
                 moveTo(row, col);

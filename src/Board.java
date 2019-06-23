@@ -17,7 +17,7 @@ import javax.swing.Timer;
  *
  * @author victor
  */
-public class Board extends JPanel {
+public class Board extends JPanel{
 
     private Snake snake;
     private Food food;
@@ -28,7 +28,7 @@ public class Board extends JPanel {
     private Wall wall;
     private boolean isPaused;
 
-    class MyKeyAdapter extends KeyAdapter {
+    class MyKeyAdapter extends KeyAdapter{
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -58,8 +58,20 @@ public class Board extends JPanel {
                     break;
                 case KeyEvent.VK_SPACE:
                     snake.jump();
+                    break;
             }
             repaint();
+        }
+        
+        @Override
+        public void keyTyped(KeyEvent e){ //NO
+            if(e.getKeyCode() == KeyEvent.VK_0){
+                System.out.println("Board.MyKeyAdapter.keyTyped()");
+                deltaTime = 200;
+            }else{
+                deltaTime = 500;
+            }
+            
         }
 
     }
@@ -113,6 +125,7 @@ public class Board extends JPanel {
         }
 
         if (wall.colideWalls(snake, snake.getDirection())) {
+            System.out.println("colision pared");
             gameOver();
         } else {
         }
@@ -150,14 +163,14 @@ public class Board extends JPanel {
     public int getSquareHeight() {
         return getHeight() / Config.numRows;
     }
-    
-    public void pause(){
-        if(isPaused == false){
+
+    public void pause() {
+        if (isPaused == false) {
             timer.stop();
-            isPaused = true;  
+            isPaused = true;
             return;
-        }       
-        if(isPaused == true){
+        }
+        if (isPaused == true) {
             timer.start();
             isPaused = false;
             return;
