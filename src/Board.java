@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -17,7 +18,7 @@ import javax.swing.Timer;
  *
  * @author victor
  */
-public class Board extends JPanel{
+public class Board extends JPanel {
 
     private Snake snake;
     private Food food;
@@ -27,8 +28,10 @@ public class Board extends JPanel{
     public int deltaTime;
     private Wall wall;
     private boolean isPaused;
+    private boolean isGameOver;
+    private ArrayList<Food> listFoods;
 
-    class MyKeyAdapter extends KeyAdapter{
+    class MyKeyAdapter extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -62,16 +65,16 @@ public class Board extends JPanel{
             }
             repaint();
         }
-        
+
         @Override
-        public void keyTyped(KeyEvent e){ //NO
-            if(e.getKeyCode() == KeyEvent.VK_0){
+        public void keyTyped(KeyEvent e) { //NO
+            if (e.getKeyCode() == KeyEvent.VK_0) {
                 System.out.println("Board.MyKeyAdapter.keyTyped()");
                 deltaTime = 200;
-            }else{
+            } else {
                 deltaTime = 500;
             }
-            
+
         }
 
     }
@@ -97,6 +100,8 @@ public class Board extends JPanel{
         food = new Food(snake);
         wall = new Wall();
         isPaused = false;
+        isGameOver = false;
+        listFoods = new ArrayList<Food>();
         timer.start();
     }
 
@@ -116,11 +121,13 @@ public class Board extends JPanel{
         int num = random.nextInt(3);
 
         if (snake.eat(food)) {
+            listFoods.add(food);
             scoreDelegate.increment(false);
             snake.setRemainingGrow(1);
             if (scoreDelegate.getScore() % 5 == 0) {
                 incrementSpeed();
             }
+
             food = new Food(snake);
         }
 
@@ -134,8 +141,10 @@ public class Board extends JPanel{
     }
 
     public void gameOver() {
-        timer.stop();
+        isGameOver = true;
+        timer.stop();       
         System.err.println("Board.gameOver()");
+
     }
 
     @Override
@@ -153,6 +162,12 @@ public class Board extends JPanel{
 
         if (wall != null) {
             wall.drawWall(g, getHeight(), getWidth());
+        }
+
+        if (isGameOver == true) {
+            for (Food f : listFoods) {
+                f.paint(g, getSquareWidth(), getSquareHeight());
+            }
         }
     }
 
