@@ -98,7 +98,7 @@ public class Board extends JPanel {
     public void initGame() {
         snake = new Snake(4);
         wall = new Wall();
-        food = new Food(snake, wall);        
+        food = new Food(snake, wall);
         isPaused = false;
         isGameOver = false;
         listFoods = new ArrayList<Food>();
@@ -142,7 +142,7 @@ public class Board extends JPanel {
 
     public void gameOver() {
         isGameOver = true;
-        timer.stop();       
+        timer.stop();
         System.err.println("Board.gameOver()");
 
     }

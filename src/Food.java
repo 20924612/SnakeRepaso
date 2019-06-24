@@ -20,6 +20,7 @@ public class Food extends Node {
         super(0, 0);
         boolean collision = true;
         while (collision) {
+            collision = false;
             int row;
             int col;
             do {
@@ -31,8 +32,6 @@ public class Food extends Node {
             for (Node node : wall.list) {
                 if (row == node.getRow() && col == node.getCol()) {
                     collision = true;
-                }else{
-                    collision = false;
                 }
             }
         }
