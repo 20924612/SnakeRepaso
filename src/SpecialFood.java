@@ -25,7 +25,7 @@ public class SpecialFood extends Food {
     }
 
     public void paint(Graphics g, int squareWidth, int squareHeight) {
-        Board.drawSquare(g, squareWidth, squareHeight, getRow(), getCol(), Color.blue);
+        Board.drawSquare(g, getRow(), getCol(), squareWidth, squareHeight, Color.blue);
     }
     
     public int getVisibleMilliseconds(){

@@ -30,6 +30,8 @@ public class Board extends JPanel {
     private boolean isPaused;
     private boolean isGameOver;
     private ArrayList<Food> listFoods;
+    private Timer specialFoodTimer;
+    private SpecialFood specialFood;
 
     class MyKeyAdapter extends KeyAdapter {
 
@@ -99,6 +101,7 @@ public class Board extends JPanel {
         snake = new Snake(4);
         wall = new Wall();
         food = new Food(snake, wall);
+        specialFood = null;
         isPaused = false;
         isGameOver = false;
         listFoods = new ArrayList<Food>();
@@ -121,14 +124,19 @@ public class Board extends JPanel {
         int num = random.nextInt(3);
 
         if (snake.eat(food)) {
+            if (food instanceof SpecialFood) {
+                listFoods.add(food);
+                scoreDelegate.increment(true);
+                snake.setRemainingGrow(5);
+                specialFoodTimer.stop();
+            }
             listFoods.add(food);
             scoreDelegate.increment(false);
             snake.setRemainingGrow(1);
             if (scoreDelegate.getScore() % 5 == 0) {
                 incrementSpeed();
             }
-
-            food = new Food(snake, wall);
+            createFood();
         }
 
         if (wall.colideWalls(snake, snake.getDirection())) {
@@ -138,6 +146,24 @@ public class Board extends JPanel {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    private void createFood() {
+        Random r = new Random();
+        int num = r.nextInt(3);
+        if (num == 0) {
+            food = new SpecialFood(snake, wall);
+            specialFoodTimer = new Timer(((SpecialFood) food).getVisibleMilliseconds(), new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    createFood();
+                    specialFoodTimer.stop();
+                }
+            });
+            specialFoodTimer.start();
+        } else {
+            food = new Food(snake, wall);
+        }
     }
 
     public void gameOver() {
@@ -158,6 +184,10 @@ public class Board extends JPanel {
         }
         if (food != null) {
             food.paint(g2d, getSquareWidth(), getSquareHeight());
+        }
+        
+        if (specialFood != null){
+            specialFood.paint(g2d, getSquareWidth(), getSquareHeight());
         }
 
         if (wall != null) {
